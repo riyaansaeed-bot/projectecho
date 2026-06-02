@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Project Echo</title>
+  <style>
+    /* RESET */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #0b0b0b;
+      color: #f5f5f5;
+    }
+
+    /* STAGES BASE */
+    #stage1,
+    #stage2,
+    #stage3 {
+      min-height: 100vh;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+
+    /* STAGE 1 ACTIVE */
+    #stage1 {
+      min-height: 100vh;
+      width: 100%;
+      opacity: 1;
+      pointer-events: auto;
+
+      background: linear-gradient(135deg, #2B0201, #5A0B08) !important;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* STAGE 2 */
+    #stage2 {
+      text-align: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+    }
+
+    /* STAGE 3 */
+    #stage3 {
+      text-align: center;
+      background: linear-gradient(135deg, #2c1810, #4a2c1a);
+    }
+
+    /* SHOW CLASS */
+    #stage2.show,
+    #stage3.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* HIDE */
+    #stage1.hide,
+    #stage2.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* TEXT */
+    .line {
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .line.show {
+      opacity: 1;
+    }
+
+    #stage2 p {
+      font-size: 1.6rem;
+    }
+
+    /* BUTTONS */
+    #stage1 button {
+      background: rgba(255, 255, 255, 0.08);
+      color: #F5F5F5;
+
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+
+      padding: 12px 24px;
+      font-size: 1.1rem;
+
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+
+      transition: 0.3s ease;
+    }
+
+    #stage1 button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    /* STAGE 2 BUTTON */
+    #stage2 button {
+      background: rgba(56, 189, 248, 0.2);
+      color: #7dd3fc;
+      border: 1px solid rgba(125, 211, 252, 0.6);
+      border-radius: 10px;
+
+      padding: 12px 24px;
+      font-size: 1.1rem;
+
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+
+      transition: 0.3s ease;
+    }
+
+    #stage2 button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    /* IMAGES */
+    #img2019,
+    #img2025 {
+      width: 60%;
+      max-width: 350px;
+      height: auto;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    #img2019.show,
+    #img2025.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* TEXT FADE */
+    #memoryText,
+    #finalText {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #stage1 h1 {
+      font-size: 4.5rem;
+    }
+
+    #stage1 p {
+      font-size: 1.4rem;
+    }
+
+    #stage1 h1 {
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    #stage1 {
+      opacity: 1;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #stage1 h1 {
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    }
+
+    #stage2 {
+      min-height: 100vh;
+      width: 100%;
+      text-align: center;
+
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      padding: 20px;
+    }
+
+    #stage2 p {
+      font-size: 1.6rem;
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+
+    #stage2 p {
+      text-shadow: 0 0 10px rgba(125, 211, 252, 0.15);
+    }
+
+    #stage2 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+
+      padding: 20px;
+      text-align: center;
+
+      overflow-x: hidden;
+    }
+
+    #stage2 p {
+      max-width: 700px;
+      margin: 10px 0;
+
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    #revealMemory {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    #memoryText,
+    #middleText,
+    #finalText {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #stage3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      padding-top: 30px;
+      text-align: center;
+    }
+
+    #memoryText,
+    #middleText,
+    #finalText {
+      font-size: 1.8rem;
+      line-height: 1.5;
+    }
+
+    #img2019:hover,
+    #img2025:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <section id="stage1">
+    <h1 class="line">HAPPY BIRTHDAY <br>ARWAAAAA!!!</h1>
+    <p class="line"> I finally made it as a promised i would 3 years ago</p>
+    <p class="line">click ze below to see more</p>
+    <button id="startBtn" class="line">Click here dumbahh</button>
+  </section>
+
+  <section id="stage2">
+    <p class="line">Hello! </p>
+    <p class="line">
+      kjdhddheiuhfrudeaoihjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd,df
+    </p>
+    <p class="line">
+      jrddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddfkjdfuiewrjf.
+    </p>
+    <p class="line">
+      drjdeeeeeeeeedeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeiufhiuehrf
+    </p>
+    <button id="revealMemory" class="hiddenBtn">Click for memory</button>
+  </section>
+
+  <section id="stage3">
+    <p id="memoryText">Look at this—the picture we took back in 2019.</p>
+    <img id="img2019" src="2019.jpg.jpeg">
+    <p id="middleText">Us 5 Years later</p>
+    <img id="img2025" src="2025.jpg.jpeg">
+    <p id="finalText">My fav pic from when we las met in 2024. We really have come a really long way and we'll keep
+      going!</p>
+  </section>
+</body>
+<script>
+  console.log("JS loaded");
+
+  const btn = document.getElementById("startBtn");
+  const stage1 = document.getElementById("stage1");
+  const stage2 = document.getElementById("stage2");
+  const stage3 = document.getElementById("stage3");
+  const memoryBtn = document.getElementById("revealMemory");
+  const middleText = document.getElementById("middleText");
+
+  const stage1Lines = document.querySelectorAll("#stage1 .line");
+
+  stage1Lines.forEach((line, index) => {
+    setTimeout(() => {
+      line.classList.add("show");
+    }, index * 900 + 300);
+  });
+
+  btn.onclick = function () {
+
+    stage1.classList.add("hide");
+
+    setTimeout(() => {
+      stage1.style.display = "none";
+      stage2.classList.add("show");
+
+      const lines = document.querySelectorAll("#stage2 .line");
+
+      lines.forEach((line, index) => {
+        setTimeout(() => {
+          line.classList.add("show");
+        }, index * 1200);
+      });
+
+      setTimeout(() => {
+        memoryBtn.style.opacity = "1";
+        memoryBtn.style.pointerEvents = "auto";
+      }, lines.length * 1200 + 1500);
+
+    }, 1000);
+  };
+
+  memoryBtn.onclick = function () {
+
+    stage2.classList.remove("show");
+
+    setTimeout(() => {
+      stage2.style.display = "none";
+      stage3.style.display = "block";
+
+      setTimeout(() => {
+        stage3.classList.add("show");
+
+        const memoryText = document.getElementById("memoryText");
+        const img2019 = document.getElementById("img2019");
+        const img2025 = document.getElementById("img2025");
+        const finalText = document.getElementById("finalText");
+
+        setTimeout(() => {
+          if (memoryText) memoryText.style.opacity = "1";
+
+          setTimeout(() => {
+            if (img2019) img2019.classList.add("show");
+
+            setTimeout(() => {
+              if (middleText) middleText.style.opacity = "1";
+
+              setTimeout(() => {
+                if (img2025) img2025.classList.add("show");
+
+                setTimeout(() => {
+                  if (finalText) finalText.style.opacity = "1";
+                }, 1500);
+
+              }, 1200);
+
+            }, 1500);
+
+          }, 1500);
+
+        }, 1000);
+
+      }, 50);
+
+    }, 1000);
+  };
+</script>
+
+</html>
